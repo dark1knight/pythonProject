@@ -33,7 +33,7 @@ class CallEndRecord(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "id": 2,
+                "id": 1,
                 "type": "end",
                 "timestamp": "2024-11-03T10:20:30",
                 "call_id": 1001
