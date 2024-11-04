@@ -1,24 +1,26 @@
 # main.py
-from flask import Flask, request, jsonify
-from models.call_record import CallStartRecord, CallEndRecord
-from services.call_service import CallService
+from flask import Flask, jsonify
+from services.phone_call_service import PhoneCallService
 
 app = Flask(__name__)
-call_service = CallService()
+phone_call_service = PhoneCallService()
 
-@app.route('/api/start_call', methods=['POST'])
-def start_call():
-    data = request.json
-    record = CallStartRecord(**data)
-    call_service.add_record(record)
-    return jsonify(record.dict()), 201
+# Basic route to display a welcome message
+@app.route('/')
+def home():
+    return jsonify({"message": "Welcome to the Call Records API!"}), 200
 
-@app.route('/api/end_call', methods=['POST'])
-def end_call():
-    data = request.json
-    record = CallEndRecord(**data)
-    call_service.add_record(record)
-    return jsonify(record.dict()), 201
+@app.route('/api/phone_calls', methods=['POST'])
+def add_phone_call():
+    phone_call_data = request.json
+    phone_call_service.add_phone_call(phone_call_data)
+    return jsonify({"message": "Phone call record added successfully"}), 201
+
+@app.route('/api/phone_calls', methods=['GET'])
+def get_phone_calls():
+    phone_calls = phone_call_service.get_all_phone_calls()
+    return jsonify(phone_calls), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
+

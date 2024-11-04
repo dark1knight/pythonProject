@@ -7,8 +7,9 @@ class CallStartRecord(BaseModel):
     type: Literal['start'] 
     timestamp: datetime 
     call_id: int 
-    source: constr(regex=r'^\d{2}\d{8,9}$')  
-    destination: constr(regex=r'^\d{2}\d{8,9}$')  
+    source: str = Field(..., pattern=r'^\d{2}\d{8,9}$')  
+    destination: str = Field(..., pattern=r'^\d{2}\d{8,9}$')
+
 
     class Config:
         schema_extra = {
