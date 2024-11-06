@@ -37,14 +37,17 @@ def add_end_call():
 
 @app.route('/api/phone_calls/search', methods=['GET'])
 def get_calls_by_source_and_timeframe():
+    # Get parameters from request
     source = request.args.get('source')
     timeframe = request.args.get('timeframe')
 
+    # Validate source and timeframe parameters
     if not source or not timeframe:
         return jsonify({"error": "Both 'source' and 'timeframe' parameters are required"}), 400
 
     try:
-        result = phone_call_service.get_calls_by_source_and_timeframe(source, timeframe)
+        # Fetch pricing records for the specified source and timeframe
+        result = phone_call_service.get_pricing_records_by_source_and_timeframe(source, timeframe)
         return jsonify(result), 200
 
     except ValueError as e:
