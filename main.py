@@ -13,6 +13,8 @@ api = Api(app, version="1.0", title="Call Records API", description="A simple AP
 # Register the phone_calls namespace from the controller
 api.add_namespace(phone_calls_ns, path="/api/phone_calls")
 
+print("PORT environment variable:", os.environ.get("PORT"))
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Default to 5000 for local dev, but use PORT on Gigalixir
     app.run(host="0.0.0.0", port=port)
