@@ -10,6 +10,7 @@ class MongoDBContext:
             raise ValueError("MONGO_URI environment variable is not set")
         
         # Initialize MongoDB client with the URI from the environment variable
+        #self.client = MongoClient(mongo_uri)
         self.client = MongoClient(mongo_uri)
         self._database = self.client["Call"]  
 
