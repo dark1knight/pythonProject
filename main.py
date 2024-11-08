@@ -10,6 +10,6 @@ def hello():
 
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 4000))
     print(f"Running minimal app on port {port}...")  # Debugging message
     app.run(host="0.0.0.0", port=port)
