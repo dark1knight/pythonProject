@@ -1,4 +1,3 @@
-print("PORT environment variable:", os.environ.get("PORT"))
 import os
 from flask import Flask
 from flask_restx import Api
