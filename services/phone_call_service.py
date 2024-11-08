@@ -75,17 +75,21 @@ class PhoneCallService:
 
         return round(total_price, 2)
 
-    def get_pricing_records_by_source_and_timeframe(self, source, year_month):
+    def get_pricing_records_by_source_and_timeframe(self, source, year_month = None):
         # Parse year and month for timeframe
-        start_date = datetime.strptime(year_month, "%Y-%m")
-        current_date = datetime.utcnow().replace(day=1)
         
-        if start_date == current_date:
-            # If it's the current month, end_date is the last day of the previous month
-            end_date = start_date - relativedelta(days=1)
+        
+        # Determine start and end dates based on year_month or default to previous month
+        if not year_month:
+            # Default to the previous month if year_month is not specified
+            start_date = (datetime.now().replace(day=1) - relativedelta(months=1))
         else:
-            # Otherwise, end_date is the start of the next month
-            end_date = start_date + relativedelta(months=1)
+            # Parse the requested year and month
+            start_date = datetime.strptime(year_month, "%Y-%m")
+
+        # Set end_date to the start of the next month from start_date
+        end_date = start_date + relativedelta(months=1)
+
 
         # Query for pricing records with the given timeframe and source
         pricing_records = list(self.phone_call_collection.find({

@@ -79,16 +79,20 @@ class EndCallResource(Resource):
 
 @api.route('/search')
 class PricingQueryResource(Resource):
-    @api.expect(pricing_query_params, validate=True)  # Expect query parameters instead of a body
+    @api.expect(pricing_query_params, validate=False)  # Allow optional validation
     @api.marshal_list_with(pricing_record_model)
     def get(self):
-        """Retrieve call pricing records by source and timeframe"""
+        """Retrieve call pricing records by source and optional timeframe"""
         source = request.args.get('source')
-        timeframe = request.args.get('timeframe')
-        if not source or not timeframe:
-            return {"error": "Both 'source' and 'timeframe' parameters are required"}, 400
+        year_month = request.args.get('timeframe')  # Optional parameter
+        
+        # Validate that 'source' is present
+        if not source:
+            return {"error": "'source' parameter is required"}, 400
+        
         try:
-            result = phone_call_service.get_pricing_records_by_source_and_timeframe(source, timeframe)
+            # Call the service method with 'year_month' (can be None)
+            result = phone_call_service.get_pricing_records_by_source_and_timeframe(source, year_month)
             return result
         except ValueError as e:
             return {"error": str(e)}, 400
